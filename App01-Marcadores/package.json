@@ -1,0 +1,26 @@
+{
+  "name": "marcadores",
+  "version": "1.0.0",
+  "description": "Aplicacion Electron para marcadores",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johangalvez/ElectronApp.git"
+  },
+  "keywords": [
+    "Electron",
+    "Marcadores"
+  ],
+  "author": "Johan Galvez L.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johangalvez/ElectronApp/issues"
+  },
+  "homepage": "https://github.com/johangalvez/ElectronApp#readme",
+  "devDependencies": {
+    "electron": "^16.0.7"
+  }
+}
