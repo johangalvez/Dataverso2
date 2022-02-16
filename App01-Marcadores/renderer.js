@@ -1,3 +1,4 @@
+//registro en el MINDEF
 class Marcadores{
     constructor(){
         
@@ -29,8 +30,11 @@ class Marcadores{
         fetch(url)
         .then(respuesta => respuesta.text())
         .then(this.extraerContenido)
-        .then(this.encontrarContenidoPagina)
+        .then(this.encontrarTituloPagina)
         .then(titulo => this.almacenarMarcador(url , titulo))
+        .then(this.limpiarFormulario)
+        .then(this.visualizarMarcadores)
+        .catch(error => this.reportarError(error, url));
     }
 
     extraerContenido(contenido){
@@ -38,12 +42,47 @@ class Marcadores{
 
     }
 
-    encontrarContenidoPagina(html){
+    encontrarTituloPagina(html){
         return html.querySelector('title').innerText;
 
     }
 
     almacenarMarcador(url, titulo){
+        localStorage.setItem(url, JSON.stringify({titulo: titulo, url: url}));
+    }
+
+    limpiarFormulario(){
+        this.marcadorUrl.value=null;
+    
+    }
+
+    obtenerMarcadores(){
+        return Object.keys(localStorage).map(k => JSON.parse(localStorage.getItem(k)));
+    }
+
+    generarHtmlMarcador(marcador){
+        return `<div class="enlace"><h3>${marcador.titulo}</h3>
+                <p><a href="${marcador.url}">${marcador.url}</a></p></div>`;
 
     }
+
+    visualizarMarcadores(){
+        let marcadores = this.obtenermarcadores();
+
+        let html = marcadores.map(this.generarHtmlMarcador()).join('');
+
+        this.mensajeError.innerHTML = html;
+
+    }
+
+    reportarError(error, url){
+        this.mensajeError.innerHTML = `Ocurrió un error al intentar acceder a ${url}: ${error}`;
+
+        setTimeout(() => {
+            this.mensajeError.innerHTML=null;
+
+        })
+    }
 }
+
+new Marcadores
