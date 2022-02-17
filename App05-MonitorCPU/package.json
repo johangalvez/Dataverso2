@@ -1,0 +1,28 @@
+{
+  "name": "app05-monitorcpu",
+  "version": "1.0.0",
+  "description": "Aplicacion monitor CPU",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johangalvez/Dataverso2.git"
+  },
+  "keywords": [
+    "Electron",
+    "js",
+    "cpu",
+    "monitor"
+  ],
+  "author": "Johan G.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johangalvez/Dataverso2/issues"
+  },
+  "homepage": "https://github.com/johangalvez/Dataverso2#readme",
+  "dependencies": {
+    "electron": "^17.0.1"
+  }
+}
