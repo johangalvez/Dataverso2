@@ -1,4 +1,5 @@
-//registro en el MINDEF
+const {shell} = require('electron');
+
 class Marcadores{
     constructor(){
         
@@ -22,6 +23,8 @@ class Marcadores{
         this.formularioCreacionMarcadores.addEventListener('submit', this.crearMarcador.bind(this));
 
         this.eliminarMarcadores.addEventListener('click', this.eliminarMarcadoresCreados.bind(this));
+
+        this.marcadores.addEventListener('click', this.abrirEnlaceMarcador.bind(this));
     }
 
     crearMarcador(evento){
@@ -63,8 +66,7 @@ class Marcadores{
     }
 
     generarHtmlMarcador(marcador){
-        return `<div class="enlace"><h3>${marcador.titulo}</h3>
-                <p><a href="${marcador.url}">${marcador.url}</a></p></div>`;
+        return `<li class="list-group-item"><h4>${marcador.titulo}</h4><a href="${marcador.url}">${marcador.url}</a></li>`;
 
     }
 
@@ -73,16 +75,17 @@ class Marcadores{
 
         let html = marcadores.map(this.generarHtmlMarcador).join('');
 
-        this.marcadores.innerHTML = html;
+        this.marcadores.innerHTML = `<ul class="list-group">${html}</ul>`;
 
     }
 
     reportarError(error, url){
+        this.mensajeError.classList.remove('invisible');
         this.mensajeError.innerHTML = `Ocurrió un error al intentar acceder a ${url}: ${error}`;
 
         setTimeout(() => {
             this.mensajeError.innerHTML=null;
-
+            this.mensajeError.classList.add('invisible');
         }, 5000);
     }
 
@@ -91,6 +94,16 @@ class Marcadores{
 
         this.marcadores.innerHTML='';
     }
+
+
+    abrirEnlaceMarcador(evento){
+        if(evento.target.href){
+            evento.preventDefault();
+            shell.openExternal(evento.target.href);
+        }
+    }
+
 }
 
-new Marcadores();
+let marcadores = new Marcadores();
+marcadores.visualizarMarcadores();
