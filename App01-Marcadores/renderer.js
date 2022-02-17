@@ -19,21 +19,23 @@ class Marcadores{
             this.marcadorBoton.disabled = !this.marcadorUrl.validity.valid;
         })
 
-        this.marcadorBoton.addEventListener('submit', this.crearMarcador.bind(this));
+        this.formularioCreacionMarcadores.addEventListener('submit', this.crearMarcador.bind(this));
+
+        this.eliminarMarcadores.addEventListener('click', this.eliminarMarcadoresCreados.bind(this));
     }
 
     crearMarcador(evento){
         evento.preventDefault();
 
-        const url = this.marcadorUrl.nodeValue;
+        const url = this.marcadorUrl.value;
 
         fetch(url)
         .then(respuesta => respuesta.text())
-        .then(this.extraerContenido)
+        .then(this.extraerContenido.bind(this))
         .then(this.encontrarTituloPagina)
         .then(titulo => this.almacenarMarcador(url , titulo))
-        .then(this.limpiarFormulario)
-        .then(this.visualizarMarcadores)
+        .then(this.limpiarFormulario.bind(this))
+        .then(this.visualizarMarcadores.bind(this))
         .catch(error => this.reportarError(error, url));
     }
 
@@ -67,11 +69,11 @@ class Marcadores{
     }
 
     visualizarMarcadores(){
-        let marcadores = this.obtenermarcadores();
+        let marcadores = this.obtenerMarcadores();
 
-        let html = marcadores.map(this.generarHtmlMarcador()).join('');
+        let html = marcadores.map(this.generarHtmlMarcador).join('');
 
-        this.mensajeError.innerHTML = html;
+        this.marcadores.innerHTML = html;
 
     }
 
@@ -81,8 +83,14 @@ class Marcadores{
         setTimeout(() => {
             this.mensajeError.innerHTML=null;
 
-        })
+        }, 5000);
+    }
+
+    eliminarMarcadoresCreados(){
+        localStorage.clear();
+
+        this.marcadores.innerHTML='';
     }
 }
 
-new Marcadores
+new Marcadores();
